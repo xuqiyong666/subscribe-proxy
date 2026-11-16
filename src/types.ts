@@ -2,30 +2,32 @@ export type SPMethod = 'push' | 'pull'
 
 export type SPPayload<TData = unknown> = {
   data: TData
-  updatedAt: number
+  time: number
 }
 
 export type SPPullPlan =
   | { mode: 'once' }
   | { mode: 'interval'; intervalMs: number }
 
-export type SPOnMessage = (payload: SPPayload) => void
+export type SPOnMessage<TData = unknown> = (payload: SPPayload<TData>) => void
 
-export type SPPushSubscribeRequest = {
+export type SPPushSubscribeRequest<TData = unknown> = {
   method: 'push'
   topic: string
-  onMessage?: SPOnMessage
+  onMessage?: SPOnMessage<TData>
 }
 
-export type SPPullSubscribeRequest = {
+export type SPPullSubscribeRequest<TData = unknown> = {
   method: 'pull'
   topic: string
   /** 拉取间隔；省略或 ≤0 表示不轮询、只拉一次，且 onMessage 只收第一帧 */
   pullIntervalMs?: number
-  onMessage?: SPOnMessage
+  onMessage?: SPOnMessage<TData>
 }
 
-export type SPSubscribeRequest = SPPushSubscribeRequest | SPPullSubscribeRequest
+export type SPSubscribeRequest<TData = unknown> =
+  | SPPushSubscribeRequest<TData>
+  | SPPullSubscribeRequest<TData>
 
 export type SPSubscription = {
   unsubscribe: () => void
@@ -76,7 +78,7 @@ export type SubscribeProxyInternal = {
 }
 
 export type SubscribeProxy = {
-  subscribe: (request: SPSubscribeRequest) => SPSubscription
+  subscribe: <TData = unknown>(request: SPSubscribeRequest<TData>) => SPSubscription
   dispose: () => void
   /** 观察面，业务页不要碰 */
   getInternal: () => SubscribeProxyInternal

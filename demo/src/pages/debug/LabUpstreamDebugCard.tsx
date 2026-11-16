@@ -4,7 +4,7 @@ import type { TableColumnsType } from 'antd'
 
 import type { SPMethod } from 'subscribe-proxy'
 import { LabMethodTag } from './LabMethodTag'
-import { formatPayloadValue, formatUpdatedAt } from '../shared/format'
+import { formatPayloadValue, formatTime } from '../shared/format'
 import type { UpstreamDebugRow } from './useUpstreamDebugRows'
 import { useUpstreamDebugRows } from './useUpstreamDebugRows'
 
@@ -53,8 +53,8 @@ const UPSTREAM_COLUMNS: TableColumnsType<UpstreamDebugRow> = [
   },
   {
     title: '更新',
-    key: 'updatedAt',
+    key: 'time',
     width: 88,
-    render: (_value: unknown, row) => formatUpdatedAt(row.payload?.updatedAt ?? 0),
+    render: (_value: unknown, row) => formatTime(row.payload?.time ?? 0),
   },
 ]

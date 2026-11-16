@@ -5,15 +5,15 @@ import type { LabDataDef } from '../../features/catalog'
 import { proxy } from '../../features/runtime'
 import type { SPPayload } from 'subscribe-proxy'
 import { LAB_TOPIC_CARD_BOX } from '../constants'
-import { formatPointValue, formatUpdatedAt } from '../shared/format'
+import { formatPointValue, formatTime } from '../shared/format'
 
 export function LabPointCard({ def }: LabPointCardProps) {
-  const [payload, setPayload] = useState<SPPayload>()
+  const [payload, setPayload] = useState<SPPayload<number>>()
   const renderCountRef = useRef(0)
   renderCountRef.current += 1
 
   useEffect(() => {
-    const subscription = proxy.subscribe({
+    const subscription = proxy.subscribe<number>({
       method: 'push',
       topic: def.topic,
       onMessage: (next) => {
@@ -23,7 +23,7 @@ export function LabPointCard({ def }: LabPointCardProps) {
     return () => subscription.unsubscribe()
   }, [def.topic])
 
-  const valueText = typeof payload?.data === 'number'
+  const valueText = payload
     ? formatPointValue(payload.data, def.decimals)
     : '—'
 
@@ -56,7 +56,7 @@ export function LabPointCard({ def }: LabPointCardProps) {
       </Box>
       <Box marginTop={6}>
         <Text fontSize={12} color="#999">
-          {formatUpdatedAt(payload?.updatedAt ?? 0)}
+          {formatTime(payload?.time ?? 0)}
         </Text>
       </Box>
     </Box>

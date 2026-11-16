@@ -3,10 +3,10 @@ import { Box, Text } from 'chakbox-ui'
 import type { LabDataDef } from '../../features/catalog'
 import type { SPPayload } from 'subscribe-proxy'
 import { LabSeriesSparkline } from './LabSeriesSparkline'
-import { asTrendPoints, formatPointValue, formatUpdatedAt } from '../shared/format'
+import { formatPointValue, formatTime, type TrendPoint } from '../shared/format'
 
 function LabSeriesView({ def, payload }: LabSeriesViewProps) {
-  const points = asTrendPoints(payload?.data) ?? []
+  const points = payload?.data ?? []
   const last = points[points.length - 1]
   const valueText = last ? formatPointValue(last.y, def.decimals) : '—'
 
@@ -26,7 +26,7 @@ function LabSeriesView({ def, payload }: LabSeriesViewProps) {
       </Box>
       <Box marginTop={6}>
         <Text fontSize={12} color="#999">
-          {formatUpdatedAt(payload?.updatedAt ?? 0)}
+          {formatTime(payload?.time ?? 0)}
         </Text>
       </Box>
     </Box>
@@ -37,5 +37,5 @@ export { LabSeriesView }
 
 type LabSeriesViewProps = {
   def: LabDataDef
-  payload: SPPayload | undefined
+  payload: SPPayload<TrendPoint[]> | undefined
 }

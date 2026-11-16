@@ -19,14 +19,16 @@ npm install subscribe-proxy
 ```ts
 import { createSubscribeProxy } from 'subscribe-proxy'
 
+type PowerSample = { kw: number }
+
 const proxy = createSubscribeProxy({ dataSource })
 
-const subscription = proxy.subscribe({
+const subscription = proxy.subscribe<PowerSample>({
   topic: 'chart.power',
   method: 'pull',
   pullIntervalMs: 1000,
   onMessage: (payload) => {
-    console.log(payload.data, payload.updatedAt)
+    console.log(payload.data, payload.time)
   },
 })
 
@@ -34,7 +36,7 @@ subscription.unsubscribe()
 proxy.dispose()
 ```
 
-一次 `subscribe` 只订一个 `topic`。`method` 决定进哪套引擎。成功且该 topic 仍有占用（因而仍有缓存）时，立刻 `onMessage` 一次当前值。之后每次 `put` 再调一次。没有读口：数据只从 `onMessage` 来。`method` 不是 `push` / `pull` 会抛错。空 `topic` 返回空订阅，不占位、不开 I/O。
+一次 `subscribe` 只订一个 `topic`。`method` 决定进哪套引擎。`subscribe<TData>` 声明这次占用的 `payload.data` 类型；省略则为 `unknown`。成功且该 topic 仍有占用（因而仍有缓存）时，立刻 `onMessage` 一次当前值。之后每次 `put` 再调一次。没有读口：数据只从 `onMessage` 来。`method` 不是 `push` / `pull` 会抛错。空 `topic` 返回空订阅，不占位、不开 I/O。
 
 ## DataSource
 
@@ -48,7 +50,7 @@ type SPDataSource = {
 
 type SPPayload = {
   data: unknown
-  updatedAt: number
+  time: number
 }
 ```
 

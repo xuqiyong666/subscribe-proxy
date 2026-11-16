@@ -5,11 +5,11 @@ export function formatPointValue(value: number, decimals: number): string {
   return value.toFixed(decimals)
 }
 
-export function formatUpdatedAt(updatedAt: number): string {
-  if (updatedAt <= 0) {
+export function formatTime(time: number): string {
+  if (time <= 0) {
     return '尚未更新'
   }
-  return new Date(updatedAt).toLocaleTimeString('zh-CN', { hour12: false })
+  return new Date(time).toLocaleTimeString('zh-CN', { hour12: false })
 }
 
 export function formatAppliedPull(applied: number | 'once' | undefined): string {

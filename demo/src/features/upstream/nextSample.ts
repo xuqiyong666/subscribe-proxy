@@ -7,7 +7,7 @@ export function nextPayload(def: LabDataDef, prev: SPPayload | undefined, now: n
   if (def.kind === 'series') {
     return {
       data: nextSeries(def, prev, now),
-      updatedAt: now,
+      time: now,
     }
   }
 
@@ -15,7 +15,7 @@ export function nextPayload(def: LabDataDef, prev: SPPayload | undefined, now: n
   const base = prevPoint ?? (typeof def.initialValue === 'number' ? def.initialValue : midpoint(def))
   return {
     data: walkNumber(base, def),
-    updatedAt: now,
+    time: now,
   }
 }
 

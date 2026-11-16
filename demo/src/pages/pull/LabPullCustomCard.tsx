@@ -8,16 +8,16 @@ import type { SPPayload } from 'subscribe-proxy'
 import { LAB_TOPIC_CARD_BOX } from '../constants'
 import type { PullCustomItem } from '../constants'
 import { LabSeriesView } from './LabSeriesView'
-import { formatPullIntervalLabel } from '../shared/format'
+import { formatPullIntervalLabel, type TrendPoint } from '../shared/format'
 
 function LabPullCustomCard({ item, onEdit, onDelete }: LabPullCustomCardProps) {
-  const [payload, setPayload] = useState<SPPayload>()
+  const [payload, setPayload] = useState<SPPayload<TrendPoint[]>>()
   const renderCountRef = useRef(0)
   renderCountRef.current += 1
   const def = findLabDataDef(item.topic)
 
   useEffect(() => {
-    const subscription = proxy.subscribe({
+    const subscription = proxy.subscribe<TrendPoint[]>({
       method: 'pull',
       topic: item.topic,
       pullIntervalMs: item.pullIntervalMs,

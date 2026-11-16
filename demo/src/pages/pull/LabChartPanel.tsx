@@ -7,17 +7,18 @@ import { proxy } from '../../features/runtime'
 import type { SPPayload } from 'subscribe-proxy'
 import { DEFAULT_PULL_INTERVAL_MS, LAB_TOPIC_CARD_BOX, PULL_INTERVAL_OPTIONS } from '../constants'
 import { LabSeriesView } from './LabSeriesView'
+import type { TrendPoint } from '../shared/format'
 
 function LabChartPanel({ def }: LabChartPanelProps) {
   const [polling, setPolling] = useState(true)
   const [intervalMs, setIntervalMs] = useState(DEFAULT_PULL_INTERVAL_MS)
-  const [payload, setPayload] = useState<SPPayload>()
+  const [payload, setPayload] = useState<SPPayload<TrendPoint[]>>()
   const pullIntervalMs = polling ? intervalMs : 0
   const renderCountRef = useRef(0)
   renderCountRef.current += 1
 
   useEffect(() => {
-    const subscription = proxy.subscribe({
+    const subscription = proxy.subscribe<TrendPoint[]>({
       method: 'pull',
       topic: def.topic,
       pullIntervalMs,
