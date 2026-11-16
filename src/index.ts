@@ -19,6 +19,6 @@ export type {
   SPPushSubscribeRequest,
   SPSubscribeRequest,
   SPSubscription,
-  SubscribeProxy,
-  SubscribeProxyInternal,
+  TSubscribeProxy,
+  TSubscribeProxyInternal,
 } from './types'

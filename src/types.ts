@@ -72,16 +72,16 @@ export type PullEngineInspect = {
   getDebugState: () => PullDebugState
 }
 
-export type SubscribeProxyInternal = {
+export type TSubscribeProxyInternal = {
   pushEngine: PushEngineInspect
   pullEngine: PullEngineInspect
 }
 
-export type SubscribeProxy = {
+export type TSubscribeProxy = {
   subscribe: <TData = unknown>(request: SPSubscribeRequest<TData>) => SPSubscription
   dispose: () => void
   /** 观察面，业务页不要碰 */
-  getInternal: () => SubscribeProxyInternal
+  getInternal: () => TSubscribeProxyInternal
 }
 
 export type SPPushDataSource = {

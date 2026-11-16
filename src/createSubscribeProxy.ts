@@ -5,10 +5,10 @@ import type {
   CreateSubscribeProxyOptions,
   SPOnMessage,
   SPSubscribeRequest,
-  SubscribeProxy,
+  TSubscribeProxy,
 } from './types'
 
-export function createSubscribeProxy(options: CreateSubscribeProxyOptions): SubscribeProxy {
+export function createSubscribeProxy(options: CreateSubscribeProxyOptions): TSubscribeProxy {
   const pushEngine = createPushEngine(options.dataSource)
   const pullEngine = createPullEngine(options.dataSource)
 
