@@ -1,6 +1,6 @@
 {
   "name": "subscribe-proxy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Client-side latest-value cache and I/O occupancy for push/pull topic subscriptions.",
   "type": "module",
   "sideEffects": false,
